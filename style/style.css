@@ -1,0 +1,7 @@
+nav.navbar {
+    display: flex;
+}
+
+div.navbar-collapse {
+    justify-content: flex-end;
+}

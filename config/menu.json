@@ -1,0 +1,17 @@
+{
+    "all": [
+        {       
+        }
+    ],
+    "reserve": [
+        {
+            "Mon profil": "profil.php"
+        }
+    ],
+    "Nconnecte": [
+        {
+            "Inscription": "inscription.php",
+            "Connexion": "connexion.php"
+        }   
+    ]   
+}
