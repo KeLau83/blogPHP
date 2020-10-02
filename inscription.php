@@ -9,20 +9,9 @@
     ),
 );
 session_start();
+include './includes/navbar.php'
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS only -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-
-<body>
     <div class="container">
         <div class="row">
             <div class="col-2"></div>
@@ -57,7 +46,7 @@ session_start();
                         ?>
                         <input type="text" class="form-control" name="captcha" <?= "value ='" . keepInfo('captcha') . "'"; ?>required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    <button type="submit" class="btn btn-dark">Envoyer</button>
                 </form>
             </div>
             <div class="col-2"></div>
