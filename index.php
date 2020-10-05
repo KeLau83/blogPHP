@@ -9,9 +9,9 @@ $req = $bdd->query('SELECT id ,titre, contenu, DATE_FORMAT(dateCreation, "%d/%m/
 $donnees = $req->fetchAll();
 
 
-include './includes/navbar.php';
+include './includes/navbar/navbar.php';
 
-require('affichageAccueil.php');
+require('./View/indexView.php');
 
 include './includes/script.html';
 

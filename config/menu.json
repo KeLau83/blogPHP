@@ -10,7 +10,7 @@
     ],
     "Nconnecte": [
         {
-            "Inscription": "inscription.php",
+            "Inscription": "subscribe.php",
             "Connexion": "connexion.php"
         }   
     ]   
