@@ -1,6 +1,5 @@
  
  <?php 
- $title = getTitle($bdd);
  ob_start();
  ?>
  <div class="container">

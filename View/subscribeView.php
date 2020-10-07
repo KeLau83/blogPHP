@@ -1,5 +1,4 @@
  <?php
- $title = getTitle($bdd);
  ob_start();
     $questionCaptcha = array(
         'question0' => array(
@@ -72,14 +71,14 @@ $content = ob_get_clean();
         }
     }
 
-    function checkIfFormIsCorrect ($bdd) {
+    function checkIfFormIsCorrect () {
         $errorMessage = null;
         if (itsNotARequestPost()) {
             return false;
         }
         
-        [$email, $pseudo, $password1, $password2] = getFormInfo();
-        $responsemember = requestForPseudo ($bdd,$pseudo);
+        [$email, $pseudo, $password1, $password2, $captcha] = getFormInfo();
+        $responsemember = requestForPseudo ($pseudo);
           
         if(isPseudoAlreadyTakenIn($responsemember, $errorMessage)){
             echo $errorMessage;
@@ -96,7 +95,7 @@ $content = ob_get_clean();
             return false;
         }
         
-        if (captchaAnswerIsFalse($errorMessage)) {
+        if (captchaAnswerIsFalse($captcha, $errorMessage)) {
             echo $errorMessage;
             return false;
         }
@@ -109,7 +108,8 @@ $content = ob_get_clean();
     $pseudo = keepInfo('pseudo');
     $password1 = keepInfo('password1');
     $password2 = keepInfo('password2');
-    return [$email, $pseudo, $password1, $password2];
+    $captcha = keepInfo('captcha');
+    return [$email, $pseudo, $password1, $password2,$captcha];
 }
 
 require('./template/template.php');

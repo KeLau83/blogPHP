@@ -5,13 +5,13 @@
     ],
     "reserve": [
         {
-            "Mon profil": "profil.php"
+            "Mon profil": "index.php?action=profil"
         }
     ],
     "Nconnecte": [
         {
-            "Inscription": "subscribe.php",
-            "Connexion": "connexion.php"
+            "Inscription": "index.php?action=subscribe",
+            "Connexion": "index.php?action=connexion"
         }   
     ]   
 }

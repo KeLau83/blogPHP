@@ -1,5 +1,4 @@
 <?php 
-$title = getTitle($bdd);
 ob_start();?>
 <div class="container">
     <div class="col-4"></div>
@@ -28,7 +27,7 @@ function whritingArticles($donnees)
     foreach ($donnees as $donnee) {
         echo '<h2>' . $donnee['titre'] . ' le ' . $donnee['date'] . '</h2>
             <p>' . $donnee['contenu'] . '</p>
-            <a href="Posts.php?id=' .  strip_tags($donnee['id']) . '">Commentaires...</a>';
+            <a href="index.php?action=post&amp;id=' .  strip_tags($donnee['id']) . '">Commentaires...</a>';
     }
 }
 

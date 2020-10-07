@@ -6,10 +6,6 @@ ob_start() ?>
     <div class="col-8">
 
         <?php
-        if (!$dataArticle = checkIfArticleExistIn($bdd)) {
-            echo "Article non trouvé";
-            die();
-        }
 
         whritingAArticle($dataArticle);
 
@@ -20,7 +16,7 @@ ob_start() ?>
         </br>
         <?php
 
-        whritingComments($bdd);
+        whritingComments($dataComment);
 
         if (userIsConnected() == true) {  
         ?>
@@ -44,8 +40,7 @@ function whritingAArticle($data) {
      <?php
 }
 
-function whritingComments($bdd) {
-    $dataComment = getDataCommentFrom($bdd);
+function whritingComments($dataComment) {
     foreach ($dataComment as $data) { ?>
         <p><strong> <?= $data['auteur'] ?></strong> le <?= $data['dateCommentaire'] ?></p>
         <p><em><?= $data['commentaire'] ?></em></p><?php
