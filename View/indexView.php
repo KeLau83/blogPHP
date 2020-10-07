@@ -1,3 +1,6 @@
+<?php 
+$title = getTitle($bdd);
+ob_start();?>
 <div class="container">
     <div class="col-4"></div>
     <div class="col-8">
@@ -7,6 +10,7 @@
         <div class="col-4"></div>
     </div>
 </div>
+<?php $content = ob_get_clean()?>
 
 
 <?php 
@@ -26,4 +30,8 @@ function whritingArticles($donnees)
             <p>' . $donnee['contenu'] . '</p>
             <a href="Posts.php?id=' .  strip_tags($donnee['id']) . '">Commentaires...</a>';
     }
-}?>
+}
+
+require('./template/template.php')
+?>
+

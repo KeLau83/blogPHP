@@ -1,4 +1,6 @@
  <?php
+ $title = getTitle($bdd);
+ ob_start();
     $questionCaptcha = array(
         'question0' => array(
             'question' => "Quelle est la couleur du cheval noir ?",
@@ -52,6 +54,7 @@
 
 
  <?php
+$content = ob_get_clean();
 
     function getRandQuest($questionCaptcha)
     {
@@ -99,56 +102,16 @@
         }
         return  [$email, $pseudo, $password1] ;
     }
-    
-    function itsNotARequestPost () {
-        if (!($_SERVER['REQUEST_METHOD'] === 'POST')){
-            return true;
-        }   
-    }
-    
+
     function getFormInfo()
-    {
-        $email = keepInfo('email');
-        $pseudo = keepInfo('pseudo');
-        $password1 = keepInfo('password1');
-        $password2 = keepInfo('password2');
-        return [$email, $pseudo, $password1, $password2];
-    }
-    
-    function requestForPseudo ($bdd,$pseudo) {
-        $member = $bdd->prepare('SELECT pseudo FROM membres WHERE pseudo = ?');
-        $member->execute(array($pseudo));
-        $responsemember = $member->fetch();
-        $member->closeCursor();
-        return $responsemember;
-    }
-    
-    function isPseudoAlreadyTakenIn($pseudo, &$errorMessage){
-        if (!empty($pseudo)) {
-            $errorMessage = "Pseudo déjà pris";
-            return true;
-        }
-    }
-    
-    function isNotTheSamePassword($password1, $password2, &$errorMessage) {
-        if ($password1 != $password2) {
-            $errorMessage = ' Problème mdp';
-            return true;
-        }
-    }
-    
-    function iSInvalidEmail ($email, &$errorMessage) {
-        if (!(preg_match("#^[a-z0-9.-]+@[a-z0-9.-]{2,}.[a-z]{2,4}$#", $email))) {
-            $errorMessage = 'Format email invalide';
-            return true;
-        }
-    }
-    
-    function captchaAnswerIsFalse(&$errorMessage) {
-        if(!(in_array($_POST["captcha"], $_SESSION['reponse']))){
-            $errorMessage = 'Mr Robot ?';
-            return true;
-        }
-    }
+{
+    $email = keepInfo('email');
+    $pseudo = keepInfo('pseudo');
+    $password1 = keepInfo('password1');
+    $password2 = keepInfo('password2');
+    return [$email, $pseudo, $password1, $password2];
+}
+
+require('./template/template.php');
 
     ?>

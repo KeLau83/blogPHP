@@ -1,3 +1,6 @@
+
+<?php ob_start() ?>
+
 <div class="container">
         <div class="row">
             <div class="col-2"></div>
@@ -24,35 +27,8 @@
 
     <?php 
     
-    if (!(isset($_POST["pseudo"]) and isset($_POST["mdp"]))) {
-      die();
-    }
+    $content = ob_get_clean();
 
-    [$pseudo, $password] = getFormInfoConnexion();
-   
-    if (!$responsemember = checkIfPseudoIsFree($bdd, $pseudo)) {
-        echo 'Mauvais identifiant ou mot de passe';
-        die();
-    }
-    
-    $correctPassword = password_verify($password, $responsemember['mdp']);
-
-    if (!$correctPassword) {
-        echo 'Mauvais identifiant ou mot de passe';
-        die();
-    }
-
-    StartSession();
-    $_SESSION['idUser'] = $responsemember['id'];
-    $_SESSION['pseudoUser'] = $responsemember['pseudo'];
-    header('Location: index.php');
-
-   
-     
-
-function StartSession () {
-    session_start();
-}
 function keepInfo($info)
 {
     if (isset($_POST[$info])) {
@@ -67,4 +43,5 @@ function getFormInfoConnexion()
     return [$pseudo, $password];
 }
 
+require('./template/template.php');
 ?>
