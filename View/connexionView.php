@@ -29,19 +29,5 @@
     
     $content = ob_get_clean();
 
-function keepInfo($info)
-{
-    if (isset($_POST[$info])) {
-        return  $_POST[$info];
-    }
-}
-
-function getFormInfoConnexion()
-{
-    $pseudo = keepInfo('pseudo');
-    $password = keepInfo('mdp');
-    return [$pseudo, $password];
-}
-
 require('./template/template.php');
 ?>

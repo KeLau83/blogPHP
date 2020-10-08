@@ -1,6 +1,7 @@
 <?php
 
 require('./controller/controller.php');
+$postManager = new PostManager();
 
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'home'){
@@ -8,10 +9,10 @@ if (isset($_GET['action'])) {
     }
 
     elseif ($_GET['action'] == 'post'){
-        if (checkIfArticleExistIn($_GET['id']) && isset($_GET['id'])){
+        if ($postManager -> checkIfArticleExistIn($_GET['id']) && isset($_GET['id'])){
             post();
         }else{
-            echo "Article non trouvé";
+            errorPage();
         }
     }
 
@@ -25,6 +26,10 @@ if (isset($_GET['action'])) {
 
     elseif ($_GET['action'] == 'connexion') {
         connexion();
+    }
+
+    elseif($_GET['action'] == 'edit' ) {
+        edit();
     }
 
     else {

@@ -1,63 +1,87 @@
 <?php
 session_start();
-require('./model/model.php');
+require('./model/PostManager.php');
+require('./model/CommentManager.php');
+require('./model/SubscribeFormManager.php');
+require('./model/UserManager.php');
+
 
 function home() {
     $title = 'Accueil';
     
-    $donnees = getLastFivePosts();
+    $postManager = new PostManager();
+    $donnees = $postManager->getLastFivePosts();
 
     require('./View/indexView.php');
 }
 
 function post () {
-    $id = issetWithGet('id');//isset($_GET['id']) ? $_GET["id"] : NULL;
+    $id = issetWithGet('id');
     $comment = issetWithPost('comment');
-
-    $title = getArticleTitle($id);
-
-    addComment($id, $comment);
-
-    $title = getArticleTitle($id);
+    $postManager = new PostManager();
+    $commentManager = new CommentManager();
+    $userManager = new UserManager();
     
-    $dataArticle = getPost($id);
+
+    $pseudoUser = $userManager -> getPseudoUser();
+
+    $title = $postManager ->getArticleTitle($id);
+
+    $commentManager -> addComment($id, $comment);
+
+    $dataArticle = $postManager->getPost($id);
     
-    $dataComment = getDataCommentFrom($id);
+    $dataComment = $commentManager -> getDataCommentFrom($id);
 
     require('./View/PostView.php'); 
 }
 
 function profil() {
     $title = 'Profil';
+    $userManager = new UserManager();
 
-    logout();
+    $userManager->logout();
     
     require('./View/ProfilView.php');
 }
 
 function subscribe () {
     $title = 'Subscribe';
+    $userManager = new UserManager();
+    $subscriberInfo =  getFormInfo();
 
     require('./View/subscribeView.php');
 
-    addNewMember();
+    $userManager -> addNewMember($subscriberInfo);
 }
 
 function connexion() {
     $title = 'LogIn';
+    $userManager = new UserManager();
 
     require('./View/connexionView.php');
 
     $pseudo = issetWithPost('pseudo');
     $passW = issetWithPost('mdp');
     
-    login($pseudo, $passW);
+    $userManager -> login($pseudo, $passW);
     
 }
 
 function errorPage() {
     $title = 404;
     require('./404/404.php');
+}
+
+function edit() {
+    $title = 'Edit Comment';
+    $commentManager = new CommentManager();
+
+    $comment =  issetWithPost('comment');
+    $idComment = issetWithGet('id');
+    
+    $commentManager -> updateComment($comment, $idComment);
+    require('./View/editView.php');
 }
 
 function issetWithGet($info) {
@@ -69,7 +93,24 @@ function issetWithGet($info) {
 
 function issetWithPost($info) {
     if (isset($_POST[$info])) {
-        return $_POST[$info];
+        return htmlspecialchars($_POST[$info]);
     }
     return null;
+}
+
+function getFormInfo()
+{
+    $email = issetWithPost('email');
+    $pseudo = issetWithPost('pseudo');
+    $password1 = issetWithPost('password1');
+    $password2 = issetWithPost('password2');
+    $captcha = issetWithPost('captcha');
+    $subscriberInfo = [
+        'email' => $email ,
+        'pseudo' => $pseudo,
+        'passW1' => $password1 ,
+        'passW2' => $password2,
+        'captcha' => $captcha
+    ];
+    return $subscriberInfo ;
 }

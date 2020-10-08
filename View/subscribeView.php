@@ -71,46 +71,7 @@ $content = ob_get_clean();
         }
     }
 
-    function checkIfFormIsCorrect () {
-        $errorMessage = null;
-        if (itsNotARequestPost()) {
-            return false;
-        }
-        
-        [$email, $pseudo, $password1, $password2, $captcha] = getFormInfo();
-        $responsemember = requestForPseudo ($pseudo);
-          
-        if(isPseudoAlreadyTakenIn($responsemember, $errorMessage)){
-            echo $errorMessage;
-            return false;
-        }
-        
-        if (isNotTheSamePassword($password1, $password2, $errorMessage)) {
-            echo $errorMessage;
-            return false;
-        }
-        
-        if (iSInvalidEmail($email, $errorMessage)) {
-            echo $errorMessage;
-            return false;
-        }
-        
-        if (captchaAnswerIsFalse($captcha, $errorMessage)) {
-            echo $errorMessage;
-            return false;
-        }
-        return  [$email, $pseudo, $password1] ;
-    }
-
-    function getFormInfo()
-{
-    $email = keepInfo('email');
-    $pseudo = keepInfo('pseudo');
-    $password1 = keepInfo('password1');
-    $password2 = keepInfo('password2');
-    $captcha = keepInfo('captcha');
-    return [$email, $pseudo, $password1, $password2,$captcha];
-}
+    
 
 require('./template/template.php');
 
