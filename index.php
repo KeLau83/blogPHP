@@ -2,41 +2,45 @@
 
 require('./controller/controller.php');
 $postManager = new PostManager();
+$frontController = new FrontController();
+$action = isset($_GET['action']);
 
-if (isset($_GET['action'])) {
-    if ($_GET['action'] == 'home'){
-        home();
+if ($action) {
+    $action = $_GET['action'];
+    switch($action) {
+       case 'home' :
+        $frontController -> home();
+            break;
+        
+        case 'post' :
+            if (isset($_GET['id']) && $postManager -> checkIfArticleExistIn($_GET['id'])){
+                $frontController -> post();
+            }else{
+                $frontController -> errorPage();
+            }
+            break;
+        
+        case 'profil' :
+            $frontController -> profil();
+            break ;
+
+        case 'subscribe' :
+            $frontController -> subscribe();
+            break ;
+
+        case 'connexion' :
+            $frontController -> connexion();
+            break ;
+        
+        case 'edit' :
+            $frontController -> edit();
+            break ;
+        
+        default:
+        $frontController -> errorPage();
     }
-
-    elseif ($_GET['action'] == 'post'){
-        if ($postManager -> checkIfArticleExistIn($_GET['id']) && isset($_GET['id'])){
-            post();
-        }else{
-            errorPage();
-        }
-    }
-
-    elseif($_GET['action'] == 'profil') {
-        profil();
-    }
-
-    elseif ($_GET['action'] == 'subscribe') {
-        subscribe();
-    }
-
-    elseif ($_GET['action'] == 'connexion') {
-        connexion();
-    }
-
-    elseif($_GET['action'] == 'edit' ) {
-        edit();
-    }
-
-    else {
-        errorPage();
-    } 
 
 }else {
-    errorPage();
+    $frontController -> errorPage();
 }
-?>
+    

@@ -4,112 +4,113 @@ require('./model/PostManager.php');
 require('./model/CommentManager.php');
 require('./model/SubscribeFormService.php');
 require('./model/UserManager.php');
+require('./controller/BackController.php');
 
-
-function home() {
-    $title = 'Accueil';
-    $userManager = new UserManager();
-    $pseudoUser = $userManager -> getPseudoUser();
-    $postManager = new PostManager();
-    $articles = $postManager->getLastFivePosts();
-
-    require('./View/indexView.php');
-}
-
-function post () {
-    $id = issetWithGet('id');
-    $comment = issetWithPost('comment');
-    $postManager = new PostManager();
-    $commentManager = new CommentManager();
-    $userManager = new UserManager();
-    $pseudoUser = $userManager -> getPseudoUser();
-    $title = $postManager ->getArticleTitle($id);
-    $commentManager -> addComment($id, $comment);
-    $infosArticle = $postManager->getPost($id); 
-    $dataComment = $commentManager -> getDataCommentFrom($id);
-
-    require('./View/PostView.php'); 
-}
-
-function profil() {
-    $title = 'Profil';
-    $userManager = new UserManager();
-
-    $userManager->logout();
+class FrontController extends BackController {
     
-    require('./View/ProfilView.php');
-}
-
-function subscribe () {
-    $title = 'Subscribe';
-    $userManager = new UserManager();
-    $subscribeFormService = new SubscribeFormService();
-    $subscriberInfo =  getFormInfo();
-    $questionCaptcha = issetWithPost('captcha');
-    $questionCaptcha = $subscribeFormService -> getRandQuest($questionCaptcha);
-
-    require('./View/subscribeView.php');
-
-    $userManager -> addNewMember($subscriberInfo);
-}
-
-function connexion() {
-    $title = 'LogIn';
-    $userManager = new UserManager();
-
-    require('./View/connexionView.php');
-
-    $pseudo = issetWithPost('pseudo');
-    $passW = issetWithPost('mdp');
+    public function home() {
+        $title = 'Accueil';
+        $userManager = new UserManager();
+        $pseudoUser = $userManager -> getPseudoUser();
+        $postManager = new PostManager();
+        $articles = $postManager->getLastFivePosts();
+        $viewData = [
+            'title' => $title,
+            'pseudoUser' => $pseudoUser,
+            'articles' => $articles,
+        ];
     
-    $userManager -> login($pseudo, $passW);
-    
-}
-
-function errorPage() {
-    $title = 404;
-    require('./404/404.php');
-}
-
-function edit() {
-    $title = 'Edit Comment';
-    $commentManager = new CommentManager();
-
-    $comment =  issetWithPost('comment');
-    $idComment = issetWithGet('id');
-    
-    $commentManager -> updateComment($comment, $idComment);
-    require('./View/editView.php');
-}
-
-function issetWithGet($info) {
-    if (isset($_GET[$info])) {
-        return $_GET[$info];
+        $this -> render('indexView.php', $viewData);
     }
-    return null;
-}
-
-function issetWithPost($info) {
-    if (isset($_POST[$info])) {
-        return htmlspecialchars($_POST[$info]);
+    
+    public function post () {
+        $id = $this -> issetWithGet('id');
+        $comment =  $this ->issetWithPost('comment');
+        $postManager = new PostManager();
+        $commentManager = new CommentManager();
+        $userManager = new UserManager();
+        $pseudoUser = $userManager -> getPseudoUser();
+        $title = $postManager ->getArticleTitle($id);
+        $commentManager -> addComment($id, $comment);
+        $infosArticle = $postManager->getPost($id); 
+        $dataComment = $commentManager -> getDataCommentFrom($id);
+        $viewData = [
+            'infosArticle' => $infosArticle,
+            'title' => $title,
+            'dataComment' => $dataComment,
+            'pseudoUser' => $pseudoUser,
+        ];
+    
+        $this -> render('PostView.php', $viewData); 
     }
-    return null;
+    
+    public function profil() {
+        $title = 'Profil';
+        $userManager = new UserManager();
+        $viewData = [
+            'title'=> $title,
+        ];
+        $userManager->logout();
+        
+        $this -> render('ProfilView.php',$viewData );
+    }
+    
+    public function subscribe () {
+        $title = 'Subscribe';
+        $userManager = new UserManager();
+        $subscribeFormService = new SubscribeFormService();
+        $subscriberInfo =   $this ->getFormInfo();
+        $questionCaptcha =  $this ->issetWithPost('captcha');
+        $questionCaptcha = $subscribeFormService -> getRandQuest($questionCaptcha);
+        $viewData = [
+            'title'=> $title,
+            'questionCaptcha' => $questionCaptcha,
+        ];
+    
+        $this -> render('subscribeView.php', $viewData);
+    
+        $userManager -> addNewMember($subscriberInfo);
+    }
+    
+    public function connexion() {
+        $title = 'LogIn';
+        $userManager = new UserManager();
+        $viewData = [
+            'title'=> $title,
+        ];
+
+        $this -> render('connexionView.php', $viewData);
+    
+        $pseudo =  $this -> issetWithPost('pseudo');
+        $passW =  $this -> issetWithPost('mdp');
+        
+        $userManager -> login($pseudo, $passW);
+        
+    }
+    
+    public function errorPage() {
+        $title = 404;
+        $viewData = [
+            'title'=> $title,
+        ];
+        $this -> render('view404.php',$viewData);
+    }
+    
+    public function edit() {
+        $title = 'Edit Comment';
+        $commentManager = new CommentManager();
+    
+        $comment =   $this -> issetWithPost('comment');
+        $idComment =  $this -> issetWithGet('id');
+        $viewData = [
+            'title'=> $title,
+        ];
+        $commentManager -> updateComment($comment, $idComment);
+         $this -> render('editView.php',$viewData);
+        
+       
+    }
+    
 }
 
-function getFormInfo()
-{
-    $email = issetWithPost('email');
-    $pseudo = issetWithPost('pseudo');
-    $password1 = issetWithPost('password1');
-    $password2 = issetWithPost('password2');
-    $captcha = issetWithPost('captcha');
-    $subscriberInfo = [
-        'email' => $email ,
-        'pseudo' => $pseudo,
-        'password1' => $password1 ,
-        'password2' => $password2,
-        'captcha' => $captcha
-    ];
-    return $subscriberInfo ;
-}
 

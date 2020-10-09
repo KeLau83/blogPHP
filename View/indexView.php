@@ -1,10 +1,10 @@
-<?php 
-ob_start();?>
+
 <div class="container">
     <div class="col-4"></div>
     <div class="col-8">
-    <h1> Bonsoir <?= $pseudoUser ?></h1> </br>
-        <?php 
+    <h1> Bonsoir <?= $viewData['pseudoUser'] ?></h1> </br>
+        <?php
+        $articles = $viewData['articles'];
              foreach ($articles as $article) {?>
                <h2> <?= $article['titre'] ?> le <?= $article['date'] ?> </h2>
                     <p> <?= $article['contenu'] ?> </p>
@@ -14,6 +14,5 @@ ob_start();?>
         <div class="col-4"></div>
     </div>
 </div>
-<?php $content = ob_get_clean();
- require('./template/template.php') ?>
+
 

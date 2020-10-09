@@ -1,5 +1,9 @@
 <?php
-ob_start() ?>
+$infosArticle = $viewData['infosArticle'];
+$dataComment = $viewData['dataComment'];
+$pseudoUser = $viewData['pseudoUser']; ?>
+
+
 <div class="container">
     <div class="col-4"></div>
     <div class="col-8">
@@ -17,7 +21,7 @@ ob_start() ?>
                 <p><em><?= $data['commentaire'] ?></em></p><?php
 
                 if ($pseudoUser == $data['auteur']) {?>
-                    <a href="index.php?action=edit&amp;id=' <?= $data['id'] ?> '">Modifier </a><?php
+                    <a href="index.php?action=edit&amp;id=<?= $data['id'] ?>">Modifier </a><?php
                 }
             }
 
@@ -31,7 +35,4 @@ ob_start() ?>
                 <div class="col-4"></div>
         </div>
     </div>
-
-            <?php }
-            $content = ob_get_clean();
-            require('./template/template.php'); ?>
+<?php } ?>

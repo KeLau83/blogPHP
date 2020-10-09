@@ -1,8 +1,3 @@
- <?php
- ob_start();
-    
-    ?>
-
 
  <div class="container">
      <div class="row">
@@ -28,7 +23,7 @@
                      <input type="password" class="form-control" name="password2" required>
                  </div>
                  <div class="form-group">
-                     <label for="exampleInputPassword1"> Pour voir si tu mérites de t'inscrire : <br /> <?= $questionCaptcha ?></label>
+                     <label for="exampleInputPassword1"> Pour voir si tu mérites de t'inscrire : <br /> <?= $viewData['questionCaptcha'] ?></label>
 
                      <input type="text" class="form-control" name="captcha" required>
                  </div>
@@ -38,13 +33,3 @@
          <div class="col-2"></div>
      </div>
  </div>
-
-
- <?php
-$content = ob_get_clean();
-
-   
-
-require('./template/template.php');
-
-    ?>
