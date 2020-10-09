@@ -1,5 +1,6 @@
 <?php
 require_once('./model/model.php');
+
 class PostManager extends vrak{
 
     public function getLastFivePosts() {

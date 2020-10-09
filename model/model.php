@@ -1,5 +1,6 @@
 <?php 
 class vrak {
+    
     protected function connectToDB() {
         try {
             $bdd = new PDO('mysql:host=localhost;dbname=blogop;charset=utf8', 'root', '');

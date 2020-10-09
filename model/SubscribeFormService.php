@@ -1,6 +1,10 @@
 <?php
 require_once('./model/model.php');
-class SubscribeFormManager extends vrak {
+
+class SubscribeFormService extends vrak {
+    
+   
+
     public function checkIfFormIsCorrect ($subscriberInfo) {
         $errorMessage = null;
         if ($this -> itsNotARequestPost()) {
@@ -57,5 +61,24 @@ class SubscribeFormManager extends vrak {
             $errorMessage = 'Mr Robot ?';
             return true;
         }
+    }
+
+    public function getRandQuest($questionCaptcha)
+    {
+         $questionsCaptcha = array(
+            'question0' => array(
+                'question' => "Quelle est la couleur du cheval noir ?",
+                'reponse' => array("noir")
+            ),
+            'question1' => array(
+                'question' => "2+2?",
+                'reponse' => array("4", "quatre")
+            ),
+        );
+
+        $idquestion = array_rand($questionsCaptcha);
+        $_SESSION['question'] = $questionsCaptcha[$idquestion]['question'];
+        $_SESSION['reponse'] = $questionsCaptcha[$idquestion]['reponse'];
+        return $_SESSION['question'];
     }
 }

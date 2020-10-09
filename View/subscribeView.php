@@ -1,15 +1,6 @@
  <?php
  ob_start();
-    $questionCaptcha = array(
-        'question0' => array(
-            'question' => "Quelle est la couleur du cheval noir ?",
-            'reponse' => array("noir")
-        ),
-        'question1' => array(
-            'question' => "2+2?",
-            'reponse' => array("4", "quatre")
-        ),
-    );
+    
     ?>
 
 
@@ -21,11 +12,11 @@
              <form method="POST">
                  <div class="form-group">
                      <label for="exampleInputEmail1">Email</label>
-                     <input type="email" class="form-control" name="email" aria-describedby="emailHelp" <?= "value ='" . keepInfo('email') . "'"; ?> required>
+                     <input type="email" class="form-control" name="email" aria-describedby="emailHelp"   required>
                  </div>
                  <div class="form-group">
                      <label for="exampleInputPassword1">Pseudo</label>
-                     <input type="texte" class="form-control" name="pseudo" <?= "value ='" . keepInfo('pseudo') . "'"; ?> required>
+                     <input type="texte" class="form-control" name="pseudo"  required>
 
                  </div>
                  <div class="form-group">
@@ -37,12 +28,9 @@
                      <input type="password" class="form-control" name="password2" required>
                  </div>
                  <div class="form-group">
-                     <?php
-                        getRandQuest($questionCaptcha)
-                        ?>
-                     <label for="exampleInputPassword1"> Pour voir si tu mérites de t'inscrire : <br /> <?= $_SESSION['question'] ?></label>
+                     <label for="exampleInputPassword1"> Pour voir si tu mérites de t'inscrire : <br /> <?= $questionCaptcha ?></label>
 
-                     <input type="text" class="form-control" name="captcha" <?= "value ='" . keepInfo('captcha') . "'"; ?>required>
+                     <input type="text" class="form-control" name="captcha" required>
                  </div>
                  <button type="submit" class="btn btn-dark">Envoyer</button>
              </form>
@@ -55,23 +43,7 @@
  <?php
 $content = ob_get_clean();
 
-    function getRandQuest($questionCaptcha)
-    {
-        if (!isset($_POST["captcha"])) {
-            $idquestion = array_rand($questionCaptcha);
-            $_SESSION['question'] = $questionCaptcha[$idquestion]['question'];
-            $_SESSION['reponse'] = $questionCaptcha[$idquestion]['reponse'];
-        }
-    }
-
-    function keepInfo($info)
-    {
-        if (isset($_POST[$info])) {
-            return  $_POST[$info];
-        }
-    }
-
-    
+   
 
 require('./template/template.php');
 

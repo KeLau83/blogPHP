@@ -2,15 +2,16 @@
 session_start();
 require('./model/PostManager.php');
 require('./model/CommentManager.php');
-require('./model/SubscribeFormManager.php');
+require('./model/SubscribeFormService.php');
 require('./model/UserManager.php');
 
 
 function home() {
     $title = 'Accueil';
-    
+    $userManager = new UserManager();
+    $pseudoUser = $userManager -> getPseudoUser();
     $postManager = new PostManager();
-    $donnees = $postManager->getLastFivePosts();
+    $articles = $postManager->getLastFivePosts();
 
     require('./View/indexView.php');
 }
@@ -21,16 +22,10 @@ function post () {
     $postManager = new PostManager();
     $commentManager = new CommentManager();
     $userManager = new UserManager();
-    
-
     $pseudoUser = $userManager -> getPseudoUser();
-
     $title = $postManager ->getArticleTitle($id);
-
     $commentManager -> addComment($id, $comment);
-
-    $dataArticle = $postManager->getPost($id);
-    
+    $infosArticle = $postManager->getPost($id); 
     $dataComment = $commentManager -> getDataCommentFrom($id);
 
     require('./View/PostView.php'); 
@@ -48,7 +43,10 @@ function profil() {
 function subscribe () {
     $title = 'Subscribe';
     $userManager = new UserManager();
+    $subscribeFormService = new SubscribeFormService();
     $subscriberInfo =  getFormInfo();
+    $questionCaptcha = issetWithPost('captcha');
+    $questionCaptcha = $subscribeFormService -> getRandQuest($questionCaptcha);
 
     require('./View/subscribeView.php');
 
@@ -108,9 +106,10 @@ function getFormInfo()
     $subscriberInfo = [
         'email' => $email ,
         'pseudo' => $pseudo,
-        'passW1' => $password1 ,
-        'passW2' => $password2,
+        'password1' => $password1 ,
+        'password2' => $password2,
         'captcha' => $captcha
     ];
     return $subscriberInfo ;
 }
+

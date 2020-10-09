@@ -1,9 +1,11 @@
 <?php 
 require_once('./model/model.php');
+
 class UserManager extends vrak{
-    public function addNewMember () {
-        $subscribeFormManager = new SubscribeFormManager;
-        if (!($subscribeFormManager -> checkIfFormIsCorrect($$subscriberInfo))){
+
+    public function addNewMember ($subscriberInfo) {
+        $subscribeFormManager = new SubscribeFormService;
+        if (!($subscribeFormManager -> checkIfFormIsCorrect($subscriberInfo))){
             return false;
         };
         [$email, $pseudo, $password] = $subscribeFormManager -> checkIfFormIsCorrect($subscriberInfo);

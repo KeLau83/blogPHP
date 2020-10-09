@@ -1,5 +1,6 @@
 <?php
 require_once('./model/model.php');
+
 class CommentManager extends vrak{
 
     public function addComment($idPost, $comment) {
@@ -13,7 +14,7 @@ class CommentManager extends vrak{
 
     public function getDataCommentFrom($idPost) {
         $db = $this -> connectToDb();
-        $reponseComment = $db->prepare('SELECT *, DATE_FORMAT(dateCommentaire, \'%d/%m/%Y à %Hh%imin%ss\') AS dateComments FROM commentaires WHERE id_billet = ?');
+        $reponseComment = $db->prepare('SELECT *, DATE_FORMAT(dateCommentaire, \'%d/%m/%Y à %Hh%imin%ss\') AS dateComments FROM commentaires WHERE id_billet = ? ORDER BY id DESC' );
         $reponseComment->execute(array($idPost));
         $dataComment = $reponseComment->fetchAll();
         $reponseComment->closeCursor();
