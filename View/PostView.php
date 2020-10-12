@@ -1,7 +1,7 @@
 <?php
-$infosArticle = $viewData['infosArticle'];
-$dataComment = $viewData['dataComment'];
-$pseudoUser = $viewData['pseudoUser']; ?>
+// $infosArticle = $viewData['infosArticle'];
+// $dataComment = $viewData['dataComment'];
+// $pseudoUser = $viewData['pseudoUser']; ?>
 
 
 <div class="container">

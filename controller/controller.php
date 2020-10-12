@@ -111,6 +111,23 @@ class FrontController extends BackController {
        
     }
     
+    private function getFormInfo()
+    {
+        $email = $this -> issetWithPost('email');
+        $pseudo = $this -> issetWithPost('pseudo');
+        $password1 = $this -> issetWithPost('password1');
+        $password2 = $this -> issetWithPost('password2');
+        $captcha = $this -> issetWithPost('captcha');
+        $subscriberInfo = [
+            'email' => $email ,
+            'pseudo' => $pseudo,
+            'password1' => $password1 ,
+            'password2' => $password2,
+            'captcha' => $captcha
+        ];
+        return $subscriberInfo ;
+    }
+    
 }
 
 

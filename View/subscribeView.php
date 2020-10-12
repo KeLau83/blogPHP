@@ -23,7 +23,7 @@
                      <input type="password" class="form-control" name="password2" required>
                  </div>
                  <div class="form-group">
-                     <label for="exampleInputPassword1"> Pour voir si tu mérites de t'inscrire : <br /> <?= $viewData['questionCaptcha'] ?></label>
+                     <label for="exampleInputPassword1"> Pour voir si tu mérites de t'inscrire : <br /> <?= $questionCaptcha ?></label>
 
                      <input type="text" class="form-control" name="captcha" required>
                  </div>

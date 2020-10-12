@@ -3,6 +3,16 @@ require_once('./model/model.php');
 
 class SubscribeFormService extends vrak {
     
+    protected static $questionsCaptcha = array(
+        'question0' => array(
+            'question' => "Quelle est la couleur du cheval noir ?",
+            'reponse' => array("noir")
+        ),
+        'question1' => array(
+            'question' => "2+2?",
+            'reponse' => array("4", "quatre")
+        ),
+    );
    
 
     public function checkIfFormIsCorrect ($subscriberInfo) {
@@ -63,22 +73,11 @@ class SubscribeFormService extends vrak {
         }
     }
 
-    public function getRandQuest($questionCaptcha)
+    public function getRandQuest()
     {
-         $questionsCaptcha = array(
-            'question0' => array(
-                'question' => "Quelle est la couleur du cheval noir ?",
-                'reponse' => array("noir")
-            ),
-            'question1' => array(
-                'question' => "2+2?",
-                'reponse' => array("4", "quatre")
-            ),
-        );
-
-        $idquestion = array_rand($questionsCaptcha);
-        $_SESSION['question'] = $questionsCaptcha[$idquestion]['question'];
-        $_SESSION['reponse'] = $questionsCaptcha[$idquestion]['reponse'];
+        $idquestion = array_rand(self::$questionsCaptcha);
+        $_SESSION['question'] = self::$questionsCaptcha[$idquestion]['question'];
+        $_SESSION['reponse'] = self::$questionsCaptcha[$idquestion]['reponse'];
         return $_SESSION['question'];
     }
 }
