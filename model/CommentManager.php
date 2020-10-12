@@ -27,7 +27,7 @@ class CommentManager extends vrak{
             $reponse = $db->prepare('UPDATE commentaires SET commentaire = ? WHERE id = ?');
             $reponse->execute(array($comment, $idComment ));
             $idPost = $this -> getIdPostByComment($idComment);
-            header('Location: index.php?action=post&id='. $idPost['id_billet'] );
+            header('Location: post/'. $idPost['id_billet'] );
         }
     }
 

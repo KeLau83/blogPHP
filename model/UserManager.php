@@ -28,13 +28,13 @@ class UserManager extends vrak{
         }
         $_SESSION['idUser'] = $responsemember['id'];
         $_SESSION['pseudoUser'] = $responsemember['pseudo'];
-        header('Location: index.php?action=home');
+        header('Location: home');
     }
 
     public function logout() {
         if (!($this -> itsNotARequestPost())) {
             session_destroy();
-            header('Location: index.php?action=home');
+            header('Location: home');
         }    
     }
 

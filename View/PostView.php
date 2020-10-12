@@ -1,8 +1,3 @@
-<?php
-// $infosArticle = $viewData['infosArticle'];
-// $dataComment = $viewData['dataComment'];
-// $pseudoUser = $viewData['pseudoUser']; ?>
-
 
 <div class="container">
     <div class="col-4"></div>
@@ -21,7 +16,7 @@
                 <p><em><?= $data['commentaire'] ?></em></p><?php
 
                 if ($pseudoUser == $data['auteur']) {?>
-                    <a href="index.php?action=edit&amp;id=<?= $data['id'] ?>">Modifier </a><?php
+                    <a href="edit/<?= $data['id'] ?>">Modifier </a><?php
                 }
             }
 
