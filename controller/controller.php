@@ -24,7 +24,8 @@ class FrontController extends BackController {
     }
     
     public function post () {
-        $id = $this -> issetWithGet('id');
+        $action = explode("/", $_SERVER['QUERY_STRING']);
+        $id = $action[1];
         $comment =  $this ->issetWithPost('comment');
         $postManager = new PostManager();
         $commentManager = new CommentManager();
@@ -93,6 +94,7 @@ class FrontController extends BackController {
         $viewData = [
             'title'=> $title,
         ];
+        http_response_code(404);
         $this -> render('view404.php',$viewData);
     }
     
@@ -101,7 +103,8 @@ class FrontController extends BackController {
         $commentManager = new CommentManager();
     
         $comment =   $this -> issetWithPost('comment');
-        $idComment =  $this -> issetWithGet('id');
+        $action = explode("/", $_SERVER['QUERY_STRING']);
+        $idComment = $action[1];
         $viewData = [
             'title'=> $title,
         ];

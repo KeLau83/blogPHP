@@ -3,17 +3,16 @@
 require('./controller/controller.php');
 $postManager = new PostManager();
 $frontController = new FrontController();
-$action = isset($_GET['action']);
+$action = explode("/", $_SERVER['QUERY_STRING']);
 
-if ($action) {
-    $action = $_GET['action'];
-    switch($action) {
+if ($action[0]) {
+    switch($action[0]) {
        case 'home' :
         $frontController -> home();
             break;
         
         case 'post' :
-            if (isset($_GET['id']) && $postManager -> checkIfArticleExistIn($_GET['id'])){
+            if (isset($action[1]) && $postManager -> checkIfArticleExistIn($action[1])){
                 $frontController -> post();
             }else{
                 $frontController -> errorPage();
